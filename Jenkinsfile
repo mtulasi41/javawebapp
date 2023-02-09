@@ -20,24 +20,17 @@ pipeline {
         }
         stage('build-notify') {
             steps {
-                slackSend channel: 'opsteam', message: 'build success', teamDomain: 'creativeworks-corp', tokenCredentialId: 'slack'
+                slackSend channel: 'opstream', message: 'Build success', teamDomain: 'creativework-co', tokenCredentialId: 'slack'
             }
         }
-        stage('CodeQuality') {
+       stage('Prod Deploy') {
             steps {
-            withSonarQubeEnv('SonarQube') {
-            sh 'mvn clean install -f pom.xml sonar:sonar'
-            }
-            }
-        }
-        stage('Prod Deploy') {
-            steps {
-                deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://34.234.40.136:8080')], contextPath: null, war: '**/*.war'
+                deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://13.235.98.142:8080/')], contextPath: null, war: '**/*.war'
             }
         }
         stage('Deploy-notify') {
             steps {
-                slackSend channel: 'opsteam', message: 'Deployment Success', teamDomain: 'creativeworks-corp', tokenCredentialId: 'slack'
+                slackSend channel: 'opsteam', message: 'Deployment Success', teamDomain: 'creativework-co', tokenCredentialId: 'slack'
             }
         }
     }
