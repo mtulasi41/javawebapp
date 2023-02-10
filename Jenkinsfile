@@ -16,7 +16,6 @@ pipeline {
             steps {
                 sh 'mvn clean install -f pom.xml'
             }
-        
         }
         stage('build-notify') {
             steps {
